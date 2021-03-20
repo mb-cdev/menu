@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "auth"
+		},
+		{
+			"path": "common"
+		}
+	],
+	"settings": {}
+}
