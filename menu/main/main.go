@@ -1,14 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"menu/common/database"
+	authbackend "menu/auth/backend"
+	"net/http"
 )
 
-func init() {
-	fmt.Println("Hello from main")
-}
-
 func main() {
-	fmt.Println(database.DB)
+	http.HandleFunc("/register", authbackend.RegisterController)
+	http.ListenAndServe(":80", nil)
 }
