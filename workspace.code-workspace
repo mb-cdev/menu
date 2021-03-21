@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "menu"
+		},
+		{
+			"path": "commandline"
 		}
 	],
 	"settings": {}

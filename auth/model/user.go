@@ -5,5 +5,5 @@ type User struct {
 	Firstname string
 	Lastname  string
 	Login     string
-	password  string
+	Password  string
 }
