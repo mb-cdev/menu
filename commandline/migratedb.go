@@ -1,10 +1,7 @@
 package main
 
-import (
-	authmodel "menu/auth/model"
-	"menu/common/database"
-)
+import "menu/common/database"
 
 func migrateDb() {
-	database.DB.AutoMigrate(&authmodel.User{})
+	database.MigrateDb()
 }

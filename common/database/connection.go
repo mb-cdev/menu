@@ -5,6 +5,8 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	authmodel "menu/auth/model"
 )
 
 var dsn = "host=127.0.0.1 dbname=menu user=postgres password=root"
@@ -23,4 +25,14 @@ func init() {
 			panic(err)
 		}
 	})
+}
+
+func MigrateDb() {
+	DB.AutoMigrate(&authmodel.User{})
+	DB.AutoMigrate(&authmodel.Address{})
+	DB.AutoMigrate(&authmodel.Country{})
+
+	c := authmodel.Country{Name: "Poland"}
+
+	DB.Create(&c)
 }
