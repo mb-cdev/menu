@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "auth"
+		},
+		{
+			"path": "common"
+		},
+		{
+			"path": "menu"
 		}
 	],
 	"settings": {}
