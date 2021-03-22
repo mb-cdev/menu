@@ -1,6 +1,8 @@
 package validator
 
 import (
+	"errors"
+	"fmt"
 	"reflect"
 )
 
@@ -13,12 +15,23 @@ func init() {
 }
 
 func IsModelValid(model interface{}) (bool, []error) {
-	var errs []error
-	t := reflect.ValueOf(model).Elem()
+	var errs []error = nil
+	v := reflect.ValueOf(model).Elem()
 
 	var i int = 0
-	for ; i < t.NumField(); i++ {
-		f := t.Field(i)
+	for ; i < v.NumField(); i++ {
+		f := v.Field(i)
+		t := v.Type().Field(i)
+
+		tag := t.Tag.Get("validator")
+
+		if len(tag) > 0 {
+			if fu, ok := validators[tag]; ok {
+				if !fu([]byte(f.String())) {
+					errs = append(errs, errors.New(fmt.Sprintf("%v is invalid!", t.Name)))
+				}
+			}
+		}
 
 	}
 

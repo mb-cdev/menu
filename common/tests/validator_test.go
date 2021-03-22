@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"menu/common/validator"
 	"testing"
 )
@@ -14,5 +15,5 @@ func TestValidator(t *testing.T) {
 		12,
 	}
 
-	validator.IsModelValid(&model)
+	fmt.Println(validator.IsModelValid(&model))
 }
