@@ -8,9 +8,10 @@ import (
 
 type User struct {
 	gorm.Model
-	Firstname string 
+	Firstname string
 	Lastname  string
 	Login     string `gorm:"unique"`
+	Age       uint8
 	Password  []byte
 	Address   []*Address
 }

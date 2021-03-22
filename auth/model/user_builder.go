@@ -64,6 +64,11 @@ func (b *UserBuilder) Password(v string) *UserBuilder {
 	return b
 }
 
+func (b *UserBuilder) Age(v uint8) *UserBuilder {
+	b.User.Age = v
+	return b
+}
+
 func (b *UserBuilder) AddAddress() *UserAddressBuilder {
 	a := &Address{}
 	b.User.Address = append(b.User.Address, a)

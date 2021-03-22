@@ -37,6 +37,7 @@ func TestUserBuilder(t *testing.T) {
 		Firstname("John").
 		Lastname("Smith").
 		Login("jSmith").
+		Age("12").
 		Password("admin1234")
 
 	ub.AddAddress().
