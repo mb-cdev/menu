@@ -11,7 +11,7 @@ func TestValidator(t *testing.T) {
 		login string `validator:"login"`
 		age   uint8
 	}{
-		"mcbury_",
+		"mcbury",
 		12,
 	}
 
