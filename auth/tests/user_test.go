@@ -37,22 +37,7 @@ func TestUserBuilder(t *testing.T) {
 		Firstname("John").
 		Lastname("Smith").
 		Login("jSmith").
-		Age("12").
 		Password("admin1234")
-
-	ub.AddAddress().
-		Name("Test Address").
-		Line1("Os Zgoda 60").
-		Postcode("34-300").
-		City("Zywiec").
-		CountryID(1)
-
-	ub.AddAddress().
-		Name("Second Address").
-		Line1("Line 1").
-		Postcode("12-200").
-		City("Polkowice").
-		CountryID(1)
 
 	u := ub.Build()
 	database.DB.Create(u)

@@ -11,9 +11,7 @@ type User struct {
 	Firstname string
 	Lastname  string
 	Login     string `gorm:"unique"`
-	Age       uint8
 	Password  []byte
-	Address   []*Address
 }
 
 func (u *User) SetPassword(p string) {

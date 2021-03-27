@@ -1,5 +1,6 @@
 package model
 
+/**
 type UserAddressBuilder struct {
 	Address *Address
 }
@@ -32,16 +33,15 @@ func (b *UserAddressBuilder) City(v string) *UserAddressBuilder {
 func (b *UserAddressBuilder) CountryID(v uint) *UserAddressBuilder {
 	b.Address.CountryID = v
 	return b
-}
+}*/
 
 type UserBuilder struct {
-	User               *User
-	UserAddressBuilder *UserAddressBuilder
+	User *User
 }
 
 func NewUserBuilder() *UserBuilder {
 	u := &User{}
-	return &UserBuilder{User: u, UserAddressBuilder: &UserAddressBuilder{}}
+	return &UserBuilder{User: u}
 }
 
 func (b *UserBuilder) Firstname(v string) *UserBuilder {
@@ -64,19 +64,6 @@ func (b *UserBuilder) Password(v string) *UserBuilder {
 	return b
 }
 
-func (b *UserBuilder) Age(v uint8) *UserBuilder {
-	b.User.Age = v
-	return b
-}
-
-func (b *UserBuilder) AddAddress() *UserAddressBuilder {
-	a := &Address{}
-	b.User.Address = append(b.User.Address, a)
-	b.UserAddressBuilder.Address = a
-
-	return b.UserAddressBuilder
-}
-
-func (b *UserBuilder) Build() *User {
-	return b.User
+func (b *UserBuilder) Build() User {
+	return *b.User
 }
