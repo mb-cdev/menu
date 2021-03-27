@@ -5,10 +5,6 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-
-	authmodel "menu/auth/model"
-	commonmodel "menu/common/model"
-	restaurantmodel "menu/restaurant/model"
 )
 
 var dsn = "host=127.0.0.1 dbname=menu user=postgres password=root"
@@ -27,15 +23,4 @@ func init() {
 			panic(err)
 		}
 	})
-}
-
-func MigrateDb() {
-	DB.AutoMigrate(&authmodel.User{})
-	DB.AutoMigrate(&commonmodel.Address{})
-	DB.AutoMigrate(&commonmodel.Country{})
-	DB.AutoMigrate(&restaurantmodel.Restaurant{})
-
-	c := commonmodel.Country{Name: "Poland"}
-
-	DB.Create(&c)
 }

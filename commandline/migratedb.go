@@ -1,6 +1,6 @@
 package main
 
-import "menu/common/database"
+import database "menu/common/databasemigrate"
 
 func migrateDb() {
 	database.MigrateDb()
