@@ -4,9 +4,9 @@ go 1.16
 
 replace menu/auth => ../auth
 
-replace menu/common => ../common
-
 replace menu/restaurant => ../restaurant
+
+replace menu/common => ./
 
 require (
 	gorm.io/driver/postgres v1.0.8
