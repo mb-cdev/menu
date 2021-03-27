@@ -1,40 +1,5 @@
 package model
 
-/**
-type UserAddressBuilder struct {
-	Address *Address
-}
-
-func (b *UserAddressBuilder) Name(v string) *UserAddressBuilder {
-	b.Address.Name = v
-	return b
-}
-
-func (b *UserAddressBuilder) Line1(v string) *UserAddressBuilder {
-	b.Address.Line1 = v
-	return b
-}
-
-func (b *UserAddressBuilder) Line2(v string) *UserAddressBuilder {
-	b.Address.Line2 = v
-	return b
-}
-
-func (b *UserAddressBuilder) Postcode(v string) *UserAddressBuilder {
-	b.Address.Postcode = v
-	return b
-}
-
-func (b *UserAddressBuilder) City(v string) *UserAddressBuilder {
-	b.Address.City = v
-	return b
-}
-
-func (b *UserAddressBuilder) CountryID(v uint) *UserAddressBuilder {
-	b.Address.CountryID = v
-	return b
-}*/
-
 type UserBuilder struct {
 	User *User
 }
