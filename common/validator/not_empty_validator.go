@@ -1,7 +1,9 @@
 package validator
 
-import "strings"
+import (
+	"bytes"
+)
 
-func IsNotEmpty(value string) bool {
-	return len(strings.Trim(value, "\n\t ")) > 0
+func IsNotEmpty(value []byte) bool {
+	return len(bytes.Trim(value, "\n\t ")) > 0
 }

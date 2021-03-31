@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/sha512"
 	"menu/auth/model"
-	"menu/common/database"
 	"testing"
 )
 
@@ -14,7 +13,7 @@ func TestUserSetPassword(t *testing.T) {
 	/**
 	 * Test Password
 	 **/
-	hashFunc := sha512.New512_256()
+	hashFunc := sha512.New()
 	hashFunc.Write([]byte(password))
 
 	passwordToCompare := hashFunc.Sum(nil)
@@ -27,18 +26,4 @@ func TestUserSetPassword(t *testing.T) {
 		t.Error("Password do not match!")
 	}
 
-}
-
-func TestUserBuilder(t *testing.T) {
-
-	database.DB.Exec("DELETE FROM addresses;DELETE FROM users")
-
-	ub := model.NewUserBuilder().
-		Firstname("John").
-		Lastname("Smith").
-		Login("jSmith").
-		Password("admin1234")
-
-	u := ub.Build()
-	database.DB.Create(u)
 }

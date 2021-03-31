@@ -10,7 +10,9 @@ var validators map[string]func(value []byte) bool
 
 func init() {
 	validators = map[string]func(value []byte) bool{
-		"login": IsValidLogin,
+		"login":          IsValidLogin,
+		"notEmptyString": IsNotEmpty,
+		"email":          IsValidEmail,
 	}
 }
 
