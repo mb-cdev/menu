@@ -6,12 +6,12 @@ import (
 )
 
 func TestNotEmptyValidator(t *testing.T) {
-	emptyString := ""
-	emptyString2 := "   "
-	emptyString3 := "\n"
-	emptyString4 := "\t"
-	emptyString5 := "\n\t"
-	fullString := "test\nAnother\n"
+	emptyString := []byte("")
+	emptyString2 := []byte("   ")
+	emptyString3 := []byte("\n")
+	emptyString4 := []byte("\t")
+	emptyString5 := []byte("\n\t")
+	fullString := []byte("test\nAnother\n")
 
 	if validator.IsNotEmpty(emptyString2) {
 		t.Error("Empty string is not empty! 1")

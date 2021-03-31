@@ -6,10 +6,10 @@ import (
 )
 
 func TestEmailValidator(t *testing.T) {
-	validEmail := "mcbury1@o2.pl"
-	invalidEmail1 := "mcbury@o2"
-	invalidEmail2 := "domain.com"
-	invalidEmail3 := "some string"
+	validEmail := []byte("mcbury1@o2.pl")
+	invalidEmail1 := []byte("mcbury@o2")
+	invalidEmail2 := []byte("domain.com")
+	invalidEmail3 := []byte("some string")
 
 	if !validator.IsValidEmail(validEmail) {
 		t.Error("Valid email is invalid!")
