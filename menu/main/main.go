@@ -1,11 +1,11 @@
 package main
 
 import (
-	authbackend "menu/auth/backend"
+	_ "menu/auth/backendregister"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/register", authbackend.RegisterController)
+
 	http.ListenAndServe(":80", nil)
 }

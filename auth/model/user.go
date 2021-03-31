@@ -8,18 +8,20 @@ import (
 
 type User struct {
 	gorm.Model
-	Firstname     string
-	Lastname      string
+	Firstname     string `validator:"notEmptyString"`
+	Lastname      string `validator:"notEmptyString"`
 	Login         string `gorm:"unique" validator:"login"`
+	Email         string `validator:"email"`
 	Password      []byte
 	IsBackendUser bool
 }
 
-func NewUserFactory(firstname string, lastname string, login string, password string, is_backend_user bool) *User {
+func NewUserFactory(firstname string, lastname string, login string, password string, email string, is_backend_user bool) *User {
 	u := User{
 		Firstname:     firstname,
 		Lastname:      lastname,
 		Login:         login,
+		Email:         email,
 		IsBackendUser: is_backend_user,
 	}
 
