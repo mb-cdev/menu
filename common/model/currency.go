@@ -1,7 +1,8 @@
 package model
 
 import (
-	"menu/common/database"
+	"strconv"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -11,11 +12,16 @@ type Currency struct {
 	Name          string
 	Symbol        string
 	Template      string
-	Exchange_rate float32 `gorm:"type:numeric(5,4) not null"`
+	Exchange_rate float64 `gorm:"type:numeric(5,4) not null"`
 }
 
-func GetMainCurrency() *Currency {
-	c := &Currency{}
-	database.DB.Where("exchange_rate = ?", 1.0000).First(c)
-	return c
+func (c *Currency) FormatPrice(price *Price) string {
+	tpl := c.Template
+	p := float64(*price) / 100
+	pString := strconv.FormatFloat(p, 'f', 2, 64)
+
+	tpl = strings.ReplaceAll(tpl, "<symbol>", c.Symbol)
+	tpl = strings.ReplaceAll(tpl, "<amount>", pString)
+
+	return tpl
 }

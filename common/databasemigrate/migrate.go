@@ -23,7 +23,7 @@ func MigrateDb() {
 	cu := commonmodel.Currency{
 		Name:          "Złoty",
 		Symbol:        "zł",
-		Exchange_rate: 1,
+		Exchange_rate: 1.0000,
 		Template:      "<amount> <symbol>",
 	}
 
