@@ -8,7 +8,7 @@ import (
 type JSONResponse struct {
 	IsSucceed    bool
 	Errs         []string
-	ResponseData interface{}
+	ResponseData map[string]string
 }
 
 func (r *JSONResponse) Success() bool {
