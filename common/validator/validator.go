@@ -13,6 +13,7 @@ func init() {
 		"login":          IsValidLogin,
 		"notEmptyString": IsNotEmpty,
 		"email":          IsValidEmail,
+		"password":       IsPasswordValid,
 	}
 }
 

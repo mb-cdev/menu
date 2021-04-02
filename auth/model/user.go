@@ -2,6 +2,8 @@ package model
 
 import (
 	"crypto/sha512"
+	"errors"
+	"menu/common/validator"
 
 	"gorm.io/gorm"
 )
@@ -12,11 +14,11 @@ type User struct {
 	Lastname      string `validator:"notEmptyString"`
 	Login         string `gorm:"unique" validator:"login"`
 	Email         string `validator:"email"`
-	Password      []byte
+	Password      []byte `validator:"password"`
 	IsBackendUser bool
 }
 
-func NewUserFactory(firstname string, lastname string, login string, password string, email string, is_backend_user bool) *User {
+func NewUserFactory(firstname string, lastname string, login string, password string, email string, is_backend_user bool) (*User, error) {
 	u := User{
 		Firstname:     firstname,
 		Lastname:      lastname,
@@ -24,9 +26,18 @@ func NewUserFactory(firstname string, lastname string, login string, password st
 		Email:         email,
 		IsBackendUser: is_backend_user,
 	}
+	/**
+	 * Validate password before hash
+	 **/
+	if v := validator.IsPasswordValid([]byte(password)); !v {
+		return nil, errors.New("Password is invalid")
+	}
+	/**
+	 *
+	 **/
 
 	u.SetPassword(password)
-	return &u
+	return &u, nil
 }
 
 func (u *User) SetPassword(p string) {

@@ -2,18 +2,13 @@ package tests
 
 import (
 	"fmt"
+	"menu/auth/model"
 	"menu/common/validator"
 	"testing"
 )
 
 func TestValidator(t *testing.T) {
-	model := struct {
-		login string `validator:"login"`
-		age   uint8
-	}{
-		"mcbury",
-		12,
-	}
+	model := model.NewUserFactory("Test", "User", "TestUser", "Admin1234!", "mcbury1@o2.pl", true)
 
-	fmt.Println(validator.IsModelValid(&model))
+	fmt.Println(validator.IsModelValid(model))
 }

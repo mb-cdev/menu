@@ -1,7 +1,6 @@
 package backendregister
 
 import (
-	"log"
 	"menu/auth/model"
 	jr "menu/common/response"
 	"menu/common/validator"
@@ -17,7 +16,7 @@ func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
 		Errs:      nil,
 	}
 
-	u := model.NewUserFactory(
+	u, err := model.NewUserFactory(
 		r.FormValue("firstname"),
 		r.FormValue("lastname"),
 		r.FormValue("login"),
@@ -27,8 +26,9 @@ func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
 	)
 	_, errs := validator.IsModelValid(u)
 
-	if errs != nil {
+	if errs != nil || err != nil {
 		jr.IsSucceed = false
+		jr.AddError(err)
 		jr.AddErrors(errs)
 		jr.WriteJSONResponse(w)
 		return false
@@ -44,7 +44,6 @@ func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
 		u.Login,
 		now.Unix(),
 	}
-	log.Default().Println(u)
 	jr.WriteJSONResponse(w)
 
 	return true

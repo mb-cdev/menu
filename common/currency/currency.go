@@ -19,6 +19,6 @@ func ConvertPrice(from model.Currency, to model.Currency, price *model.Price) {
 
 func GetMainCurrency() *model.Currency {
 	c := &model.Currency{}
-	database.DB.Where("exchange_rate = ?", 1000).First(c)
+	database.DB.Where("exchange_rate = ?", 1.0000).First(c)
 	return c
 }
