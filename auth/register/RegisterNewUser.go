@@ -1,14 +1,14 @@
-package backendregister
+package register
 
 import (
 	"menu/auth/model"
+	"menu/common/database"
 	jr "menu/common/response"
 	"menu/common/validator"
 	"net/http"
-	"time"
 )
 
-func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
+func registerNewUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) bool {
 	r.ParseForm()
 
 	jr := jr.JSONResponse{
@@ -22,10 +22,13 @@ func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
 		r.FormValue("login"),
 		r.FormValue("password"),
 		r.FormValue("email"),
-		true,
+		is_backend_user,
 	)
-	_, errs := validator.IsModelValid(u)
 
+	var errs []error = nil
+	if err == nil {
+		_, errs = validator.IsModelValid(u)
+	}
 	if errs != nil || err != nil {
 		jr.IsSucceed = false
 		jr.AddError(err)
@@ -34,15 +37,11 @@ func registerNewUser(w http.ResponseWriter, r *http.Request) bool {
 		return false
 	}
 
-	now := time.Now()
-	jr.ResponseData = struct {
-		Name  string
-		Login string
-		Time  int64
-	}{
-		u.Firstname,
-		u.Login,
-		now.Unix(),
+	if res := database.DB.Create(&u); res.Error != nil {
+		jr.IsSucceed = false
+		jr.AddError(res.Error)
+		jr.WriteJSONResponse(w)
+		return false
 	}
 	jr.WriteJSONResponse(w)
 

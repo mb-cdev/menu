@@ -20,11 +20,15 @@ func (r *JSONResponse) Errors() []string {
 }
 
 func (r *JSONResponse) WriteJSONResponse(w http.ResponseWriter) error {
+	w.Header().Add("Content-Type", "application/json")
 	e := json.NewEncoder(w)
 	return e.Encode(r)
 }
 
 func (r *JSONResponse) AddError(e error) {
+	if e == nil {
+		return
+	}
 	r.Errs = append(r.Errs, e.Error())
 }
 
