@@ -4,9 +4,8 @@ import (
 	"menu/auth/model"
 	"menu/common/database"
 	"menu/common/response"
+	"menu/session/session"
 	"net/http"
-
-	"github.com/google/uuid"
 )
 
 func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
@@ -38,7 +37,12 @@ func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
 	}
 
 	jsonResponse.ResponseData = make(map[string]string)
-	jsonResponse.ResponseData["session"] = uuid.NewString()
 
+	/**
+	 * Start new session
+	 */
+	sess := session.New()
+	sess.Set("UserID", user.ID)
+	jsonResponse.ResponseData["session"] = sess.ID
 	jsonResponse.WriteJSONResponse(w)
 }

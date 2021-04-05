@@ -1,4 +1,4 @@
-module menu/auth
+module menu/session
 
 go 1.16
 
@@ -8,10 +8,10 @@ replace menu/auth => ../auth
 
 replace menu/restaurant => ../restaurant
 
-replace menu/session => ../session
+replace menu/session => ./
 
 require (
-	gorm.io/gorm v1.21.6
+	github.com/google/uuid v1.2.0
+	menu/auth v0.0.0-00010101000000-000000000000
 	menu/common v0.0.0-00010101000000-000000000000
-	menu/session v0.0.0-00010101000000-000000000000
 )
