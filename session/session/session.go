@@ -19,6 +19,7 @@ type Session struct {
 	Data       map[string]interface{}
 }
 
+var SessionCache sync.Map
 var SessionPath string
 
 func init() {
@@ -49,11 +50,17 @@ func New() *Session {
 	}
 
 	s.Save()
+	SessionCache.Store(s.ID, s)
 
 	return s
 }
 
 func Open(ID string) (*Session, error) {
+
+	if sCached, ok := SessionCache.Load(ID); ok {
+		return sCached.(*Session), nil
+	}
+
 	f, err := os.Open(path.Join(SessionPath, ID))
 
 	if err != nil {

@@ -1,13 +1,9 @@
 package tests
 
 import (
-	"encoding/json"
-	"fmt"
 	"menu/auth/login"
-	"menu/common/response"
+	"menu/session/session"
 	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"testing"
 )
 
@@ -19,7 +15,7 @@ func (h *HandleLogin) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestLogin(t *testing.T) {
-	s := httptest.NewServer(&HandleLogin{})
+	/*s := httptest.NewServer(&HandleLogin{})
 	defer s.Close()
 
 	v := url.Values{}
@@ -31,5 +27,32 @@ func TestLogin(t *testing.T) {
 
 	ds := response.JSONResponse{}
 	d.Decode(&ds)
-	fmt.Printf("%#v", ds)
+	fmt.Printf("%#v", ds)*/
+}
+
+func TestSesions(t *testing.T) {
+	ss := []*session.Session{}
+	for i := 0; i < 3; i++ {
+		ss = append(ss, session.New())
+	}
+
+	session.SessionCache.Range(func(k interface{}, v interface{}) bool {
+		exists := false
+		for _, val := range ss {
+			if v.(*session.Session).ID == val.ID {
+				exists = true
+				break
+			}
+		}
+
+		if !exists {
+			t.Error("Sessions not exists in memory!")
+		}
+
+		return exists
+	})
+
+	for _, v := range ss {
+		v.Drop()
+	}
 }
