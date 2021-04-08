@@ -8,6 +8,8 @@ import (
 	"net/http"
 )
 
+const UserObjectSessionKey string = "User"
+
 func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
 	jsonResponse := response.JSONResponse{
 		IsSucceed: true,
@@ -42,7 +44,7 @@ func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
 	 * Start new session
 	 */
 	sess := session.New()
-	sess.Set("UserID", user.ID)
+	sess.Set(UserObjectSessionKey, user)
 	jsonResponse.ResponseData["session"] = sess.ID
 	jsonResponse.WriteJSONResponse(w)
 }

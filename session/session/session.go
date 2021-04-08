@@ -3,6 +3,7 @@ package session
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"os"
 	"path"
@@ -58,6 +59,9 @@ func New() *Session {
 func Open(ID string) (*Session, error) {
 
 	if sCached, ok := SessionCache.Load(ID); ok {
+		if sCached.(*Session).IsExpired() {
+			return nil, errors.New("Session expired!")
+		}
 		return sCached.(*Session), nil
 	}
 
@@ -76,7 +80,17 @@ func Open(ID string) (*Session, error) {
 		return nil, errDecode
 	}
 
+	if s.IsExpired() {
+		return nil, errors.New("Session expired!")
+	}
+
+	SessionCache.Store(s.ID, s)
+
 	return s, nil
+}
+
+func (s *Session) IsExpired() bool {
+	return s.Expire_at < time.Now().Unix()
 }
 
 func (s *Session) Save() (int64, error) {
@@ -96,6 +110,7 @@ func (s *Session) Save() (int64, error) {
 
 func (s *Session) Drop() bool {
 	res := os.Remove(path.Join(SessionPath, s.ID))
+	SessionCache.Delete(s.ID)
 
 	if res != nil {
 		return false
@@ -109,6 +124,6 @@ func (s *Session) Set(key string, value interface{}) {
 	s.Save()
 }
 
-func (s *Session) Get(key string) interface{} {
+func (s *Session) Get(key string) (interface{}, bool) {
 	return s.Data[key]
 }
