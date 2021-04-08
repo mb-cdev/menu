@@ -23,8 +23,6 @@ type Session struct {
 var SessionCache sync.Map
 var SessionPath string
 
-const SessionHeaderKey string = "X-MENU-SESSION-ID"
-
 func init() {
 	var once sync.Once
 

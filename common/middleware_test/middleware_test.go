@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"menu/auth/login"
+	"menu/common/constants"
 	"menu/common/middleware"
 	"menu/common/response"
 	"menu/session/session"
@@ -80,7 +81,7 @@ func TestIsNotLoggedMiddleware(t *testing.T) {
 
 	bufferB := strings.NewReader(vEncoded)
 	req, errR := http.NewRequest(http.MethodPost, s.URL+"/admin/login", bufferB)
-	req.Header.Add(session.SessionHeaderKey, sess.ID)
+	req.Header.Add(constants.SessionHeaderKey, sess.ID)
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("Content-Length", strconv.FormatInt(int64(len(vEncoded)), 10))
 	if errR != nil {
