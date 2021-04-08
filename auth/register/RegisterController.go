@@ -1,12 +1,14 @@
 package register
 
 import (
+	"menu/common/middleware"
 	"net/http"
 )
 
 func init() {
-	http.HandleFunc("/register", HandleFrontendRegister)
-	http.HandleFunc("/admin/register", HandleBackendRegister)
+	inl := &middleware.IsNotLogged{}
+	http.HandleFunc("/register", middleware.Middleware(HandleFrontendRegister, inl))
+	http.HandleFunc("/admin/register", middleware.Middleware(HandleBackendRegister, inl))
 }
 
 func HandleBackendRegister(w http.ResponseWriter, r *http.Request) {

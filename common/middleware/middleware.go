@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"menu/auth/login"
+	"menu/auth/constans"
 	"menu/auth/model"
 	"menu/session/session"
 	"net/http"
@@ -23,12 +23,21 @@ func Middleware(next func(w http.ResponseWriter, r *http.Request), funcs ...Midd
 	}
 }
 
+/**
+ * IsLogged
+ **/
 type IsLogged struct {
 	MustBeAdmin bool
 }
 
 func (il *IsLogged) Execute(w http.ResponseWriter, r *http.Request) bool {
-	sessID := r.Header.Get("X-MENU-SESSION-ID")
+	sessID := r.Header.Get(session.SessionHeaderKey)
+
+	if sessID == "" {
+		http.Error(w, "Not Authorized", http.StatusForbidden)
+		return false
+	}
+
 	s, err := session.Open(sessID)
 
 	if err != nil {
@@ -36,7 +45,7 @@ func (il *IsLogged) Execute(w http.ResponseWriter, r *http.Request) bool {
 		return false
 	}
 
-	if v, ok := s.Get(login.UserObjectSessionKey); ok {
+	if v, ok := s.Get(constans.UserObjectSessionKey); ok {
 		if u, ok := v.(model.User); ok {
 			if !il.MustBeAdmin {
 				return true
@@ -50,5 +59,31 @@ func (il *IsLogged) Execute(w http.ResponseWriter, r *http.Request) bool {
 	}
 
 	http.Error(w, "Not Authorized", http.StatusForbidden)
+	return false
+}
+
+/**
+ * IsNotLogged
+ */
+type IsNotLogged struct{}
+
+func (inl *IsNotLogged) Execute(w http.ResponseWriter, r *http.Request) bool {
+	sessID := r.Header.Get(session.SessionHeaderKey)
+
+	if sessID == "" {
+		return true
+	}
+
+	s, err := session.Open(sessID)
+
+	if err != nil {
+		return true
+	}
+
+	if _, ok := s.Get(constans.UserObjectSessionKey); !ok {
+		return true
+	}
+
+	http.Error(w, "Not Allowed", http.StatusForbidden)
 	return false
 }

@@ -1,14 +1,13 @@
 package login
 
 import (
+	"menu/auth/constans"
 	"menu/auth/model"
 	"menu/common/database"
 	"menu/common/response"
 	"menu/session/session"
 	"net/http"
 )
-
-const UserObjectSessionKey string = "User"
 
 func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
 	jsonResponse := response.JSONResponse{
@@ -44,7 +43,7 @@ func logInUser(w http.ResponseWriter, r *http.Request, is_backend_user bool) {
 	 * Start new session
 	 */
 	sess := session.New()
-	sess.Set(UserObjectSessionKey, user)
+	sess.Set(constans.UserObjectSessionKey, user)
 	jsonResponse.ResponseData["session"] = sess.ID
 	jsonResponse.WriteJSONResponse(w)
 }

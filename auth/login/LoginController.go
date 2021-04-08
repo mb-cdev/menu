@@ -1,9 +1,12 @@
 package login
 
-import "net/http"
+import (
+	"menu/common/middleware"
+	"net/http"
+)
 
 func init() {
-	http.HandleFunc("/admin/login", HandleBackendLogin)
+	http.HandleFunc("/admin/login", middleware.Middleware(HandleBackendLogin, &middleware.IsNotLogged{}))
 }
 
 func HandleBackendLogin(w http.ResponseWriter, r *http.Request) {
